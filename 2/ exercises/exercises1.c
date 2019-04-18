@@ -1,34 +1,14 @@
 #include <stdio.h>
-int graph[9][9] = {0};
-int count = 0;
 int main(void)
 {
-    for (int i = 0; i < 3; i++)
+    int a[] = {5, 2, 6, 3, 1, -1};
+    for (int i = 0; a[i] != -1; i++)
     {
-        for (int j = 0 + count; j < 9 - count; j++)
+        for (int j = 0; j < a[i]; j++)
         {
-            graph[0 + count][j] = 1;
-            graph[8 - count][j] = 1;
-            graph[j][0 + count] = 1;
-            graph[j][8 - count] = 1;
-        }
-        count += 2;
-    }
-
-    //output
-    for (int i = 0; i < 9; i++)
-    {
-        for (int j = 0; j < 9; j++)
-        {
-            if (graph[i][j] == 1)
-            {
-                printf("O");
-            }
-            else
-            {
-                printf(" ");
-            }
+            printf("O");
         }
         printf("\n");
     }
+    return 0;
 }
