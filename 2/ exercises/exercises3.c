@@ -1,45 +1,53 @@
 #include <stdio.h>
+
+#define x 9
+#define y 9
+#define zero 0
+#define one 1
+#define two 2
+#define eight 8
+
 int main(void)
 {
-    int graph[9][9] = {0};
-    int count = 0;
-    for (int i = 0; i < 2; i++)
+    int graph[x][y] = {zero};
+    int count = zero;
+    for (int i = zero; i < two; i++)
     {
-        for (int j = 0 + count; j < 9 - count; j++)
+        for (int j = zero + count; j < x - count; j++)
         {
-            graph[0 + count][j] = 1;
-            graph[j][8 - count] = 1;
+            graph[zero + count][j] = one;
+            graph[j][eight - count] = one;
         }
-        count += 2;
+        count += two;
     }
-    count = 0;
-    int ycount = 0;
-    for (int i = 0; i < 3; i++)
+    count = zero;
+    int ycount = zero;
+    for (int i = zero; i < 3; i++)
     {
-        for (int j = 0 + count; j < 9 - ycount; j++)
+        for (int j = zero + count; j < x - ycount; j++)
         {
-            graph[j][0 + count] = 1;
+            graph[j][zero + count] = one;
         }
-        ycount++;
-        count += 2;
+        ++ycount;
+        count += two;
     }
 
-    count = 0;
-    for (int i = 0; i < 2; i++)
+    count = zero;
+    for (int i = zero; i < two; i++)
     {
-        for (int j = 2 + count; j < 9 - count; j++)
+        for (int j = two + count; j < x - count; j++)
         {
-            graph[8 - count][j] = 1;
+            graph[eight - count][j] = one;
         }
-        count += 2;
+        count += two;
     }
 
     //output
-    for (int i = 0; i < 9; i++)
+    for (int i = zero; i < y; i++)
     {
-        for (int j = 0; j < 9; j++)
+        for (int j = zero; j < x; j++)
         {
-            if (graph[i][j] == 1)
+            if (graph[i][j] == one)
             {
                 printf("O");
             }
