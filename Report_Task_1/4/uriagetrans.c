@@ -19,7 +19,7 @@ SHOHIN shohin[] = {{"Apple", 150}, {"Orange", 100}, {"Banana", 200}, {"Book1", 5
 int printUriageTrans(URIAGE **u)
 {
 	int i, j;
-	double sum;
+	double sum = 0, all = 0;
 	for (i = 0; u[i] != NULL; i++)
 	{
 		for (int j = 0; u[i][j].code != (-1); j++)
@@ -39,14 +39,16 @@ int printUriageTrans(URIAGE **u)
 			else
 			{
 				printf("%s\t単価%d円(外税) %d 個\t%.0f 円\n", name, tanka, num, zeisyoukei);
-				sum += syoukei;
+				sum += zeisyoukei;
 			}
 		}
 		printf("小計:\t\t\t\t%.0f円\n", sum);
 		printf("------------------\n");
+		all += sum;
+		sum = 0;
 	}
-	printf("合計:\t\t\t\t%.0f円\n", sum);
-	return sum;
+	printf("合計:\t\t\t\t%.0f円\n", all);
+	return all;
 }
 
 int main(void)

@@ -1,5 +1,6 @@
 #include <chrono>
 #include <iostream>
+#include <omp.h>
 
 #define inf 9999999
 #define size 10000
@@ -14,9 +15,11 @@ int dijkstra(const int start, const int goal)
 {
     int min, target;
     cost[start] = 0;
+#pragma omp parallel for
     while (1)
     {
         min = inf;
+#pragma omp parallel for
         for (i = 0; i < n; ++i)
         {
             if (!use[i] && min > cost[i])
@@ -30,6 +33,7 @@ int dijkstra(const int start, const int goal)
         {
             return cost[goal];
         }
+#pragma omp parallel for
         for (neigh = 0; neigh < n; ++neigh)
         {
             if (cost[neigh] > dist[target][neigh] + cost[target])
