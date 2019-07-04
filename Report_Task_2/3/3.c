@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #define ZEI 1.08
 
 typedef struct
@@ -161,7 +162,7 @@ void printUriageList(URIAGELIST *l)
         syoukei = num * tanka;
         zeisyoukei = num * tanka * ZEI;
         //最後のノードかそれ以外かの判断
-        if (l->next != NULL)
+        if (l != NULL)
         {
             //sotozeiがtrueかflaseかで外税か内税かを判別
             if (sotozei)
@@ -199,8 +200,23 @@ URIAGELIST *newlist(void)
 
 void freeUriageList(URIAGELIST *l, int purge)
 {
-    const int pargecheck = 1;
-    if (parge == pargecheck)
+    URIAGELIST *next;
+    if (purge)
     {
+        while (l != NULL)
+        {
+            next = l->next;
+            free(l);
+            l = next;
+        }
+    }
+    else
+    {
+        while (l != NULL)
+        {
+            next = l->next;
+            free(l->next);
+            l = next;
+        }
     }
 }

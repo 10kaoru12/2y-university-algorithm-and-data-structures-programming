@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+
 #define ZEI 1.08
 
 typedef struct
@@ -104,7 +105,7 @@ void printUriageList(URIAGELIST *l)
         syoukei = num * tanka;
         zeisyoukei = num * tanka * ZEI;
         //最後のノードかそれ以外かの判断
-        if (l->next != NULL)
+        if (l != NULL)
         {
             //sotozeiがtrueかfalseかで外税か内税かを判別
             if (sotozei)
