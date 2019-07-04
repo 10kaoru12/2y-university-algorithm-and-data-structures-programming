@@ -118,6 +118,14 @@ void printUriageList(URIAGELIST *l)
     }
 }
 
-URIAGELIST* newlist(void){
-    
+URIAGELIST *newlist(void)
+{
+    URIAGELIST *l;
+    l = malloc(sizeof(URIAGELIST));
+    if (l != NULL)
+    {
+        l->next = NULL;
+        l->uriage = '\0';
+    }
+    return l;
 }
