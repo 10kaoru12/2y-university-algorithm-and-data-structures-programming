@@ -50,34 +50,37 @@ int main(void)
 
 void printUriageList(URIAGELIST *l)
 {
-    int i;
     int sotozei;
     int tanka;
     int num;
     char *name;
     int syoukei;
     double zeisyoukei;
-    int sum = 0;
-    for (i = 0; l->next != NULL; i++)
+    while (l->next != NULL)
     {
+        //lのURIAGE型のメンバーuriageのポインタである*uriageにアロー演算子でアクセスする。
+        //*uriageのメンバであるcodeにアクセス
         sotozei = shohin[l->uriage->code].sotozei;
         tanka = shohin[l->uriage->code].tanka;
+        //*uriageのメンバであるnumにアロー演算子でアクセス
         num = l->uriage->num;
         name = shohin[l->uriage->code].name;
         syoukei = num * tanka;
         zeisyoukei = num * tanka * ZEI;
+        //最後のノードかそれ以外かの判断
         if (l->next != NULL)
         {
-            if (sotozei == 0)
+            //sotozeiが0か1かで外税か内税かを判別
+            if (sotozei)
             {
-                printf("%s\t単価%d円(内税) %d 個\t%d 円\n", name, tanka, num, syoukei);
+                printf("%s\t単価%d円(外税) %d 個\t%.0f 円\n", name, tanka, num, zeisyoukei);
             }
             else
             {
-                printf("%s\t単価%d円(外税) %d 個\t%.0f 円\n", name, tanka, num, zeisyoukei);
-                sum += zeisyoukei;
+                printf("%s\t単価%d円(内税) %d 個\t%d 円\n", name, tanka, num, syoukei);
             }
         }
+        //次にprintする対象である構造体をl->nextを使って参照して代入
         l = l->next;
     }
 }

@@ -33,6 +33,9 @@ int main(void)
     URIAGE u1 = {1, 2};
     URIAGE u2 = {2, 3};
     URIAGE u3 = {3, 4};
+    URIAGE *up1;
+    URIAGE *up2;
+    URIAGE *up3;
     URIAGELIST *l0;
     URIAGELIST *l1;
     URIAGELIST *l2;
@@ -63,24 +66,78 @@ int main(void)
         free(l0);
         return 2;
     }
-    printUriageList(l0);
-    printf("-----\n");
     l1->next = l0;
     l1->uriage = &u1;
-    printUriageList(l1);
-    printf("-----\n");
     l2->next = l1;
     l2->uriage = &u2;
-    printUriageList(l2);
-    printf("-----\n");
     l3->next = l2;
     l3->uriage = &u3;
     printUriageList(l3);
     printf("-----\n");
-    free(l3);
-    free(l2);
-    free(l1);
-    free(l0);
+    freeUriageList(l3, 0);
+
+    if ((l0 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        return 2;
+    }
+    if ((l1 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l0);
+        return 2;
+    }
+    if ((l2 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l1);
+        free(l0);
+        return 2;
+    }
+    if ((l3 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        return 2;
+    }
+    if ((up1 = malloc(sizeof(URIAGE))) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l2);
+        free(l1);
+        free(l0);
+        return 2;
+    }
+    if ((up2 = malloc(sizeof(URIAGE))) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l2);
+        free(l1);
+        free(l0);
+        free(up1);
+        return 2;
+    }
+    if ((up3 = malloc(sizeof(URIAGE))) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l2);
+        free(l1);
+        free(l0);
+        free(up2);
+        free(up1);
+        return 2;
+    }
+    *up1 = u1;
+    *up2 = u2;
+    *up3 = u3;
+    l1->next = l0;
+    l1->uriage = up1;
+    l2->next = l1;
+    l2->uriage = up2;
+    l3->next = l2;
+    l3->uriage = up3;
+    printUriageList(l3);
+    printf("-----\n");
+    freeUriageList(l3, 1);
     return 0;
 }
 
@@ -106,7 +163,7 @@ void printUriageList(URIAGELIST *l)
         //最後のノードかそれ以外かの判断
         if (l->next != NULL)
         {
-            //sotozeiがtrueかfalseかで外税か内税かを判別
+            //sotozeiがtrueかflaseかで外税か内税かを判別
             if (sotozei)
             {
                 printf("%s\t単価%d円(外税) %d 個\t%.0f 円\n", name, tanka, num, zeisyoukei);
@@ -132,10 +189,18 @@ URIAGELIST *newlist(void)
         l->next = NULL;
         l->uriage = '\0';
     }
-    //明示的return NULLを示す
+    //明示的にreturn NULL
     else
     {
         return NULL;
     }
     return l;
+}
+
+void freeUriageList(URIAGELIST *l, int purge)
+{
+    const int pargecheck = 1;
+    if (parge == pargecheck)
+    {
+    }
 }
