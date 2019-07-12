@@ -143,9 +143,9 @@ void freeUriageList(URIAGELIST *l, int purge)
 
 URIAGELIST *add(URIAGELIST *l, URIAGE *u)
 {
-    while (l->next != NULL)
+    if (l->next != NULL)
     {
-        l = l->next;
+        return add(l->next, u);
     }
     if ((l->next = newlist()) != NULL)
     {
