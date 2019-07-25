@@ -32,68 +32,57 @@ SHOHIN shohin[] = {{"Apple", 150}, {"Orange", 100}, {"Banana", 200}, {"Book1", 5
 
 int main(void)
 {
-    clock_t start, end;
-    double sum = 0;
-    int i;
-    for (i = 0; i < 10; i++)
+    URIAGE u1 = {1, 2};
+    URIAGE u2 = {2, 3};
+    URIAGE u3 = {3, 4};
+    URIAGELIST *l0;
+    URIAGELIST *l1;
+    URIAGELIST *l2;
+    URIAGELIST *l3;
+    if ((l0 = newlist()) == NULL)
     {
-        start = clock();
-        URIAGE u1 = {1, 2};
-        URIAGE u2 = {2, 3};
-        URIAGE u3 = {3, 4};
-        URIAGELIST *l0;
-        URIAGELIST *l1;
-        URIAGELIST *l2;
-        URIAGELIST *l3;
-        if ((l0 = newlist()) == NULL)
-        {
-            fprintf(stderr, "領域を確保できませんでした");
-            return 2;
-        }
-        if ((l1 = newlist()) == NULL)
-        {
-            fprintf(stderr, "領域を確保できませんでした");
-            free(l0);
-            return 2;
-        }
-        if ((l2 = newlist()) == NULL)
-        {
-            fprintf(stderr, "領域を確保できませんでした");
-            free(l1);
-            free(l0);
-            return 2;
-        }
-        if ((l3 = newlist()) == NULL)
-        {
-            fprintf(stderr, "領域を確保できませんでした");
-            free(l2);
-            free(l1);
-            free(l0);
-            return 2;
-        }
-        printUriageList(l0);
-        printf("-----\n");
-        l1->next = l0;
-        l1->uriage = &u1;
-        printUriageList(l1);
-        printf("-----\n");
-        l2->next = l1;
-        l2->uriage = &u2;
-        printUriageList(l2);
-        printf("-----\n");
-        l3->next = l2;
-        l3->uriage = &u3;
-        printUriageList(l3);
-        printf("-----\n");
-        free(l3);
+        fprintf(stderr, "領域を確保できませんでした");
+        return 2;
+    }
+    if ((l1 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l0);
+        return 2;
+    }
+    if ((l2 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
+        free(l1);
+        free(l0);
+        return 2;
+    }
+    if ((l3 = newlist()) == NULL)
+    {
+        fprintf(stderr, "領域を確保できませんでした");
         free(l2);
         free(l1);
         free(l0);
-        end = clock();
-        sum += (double)(end - start) / CLOCKS_PER_SEC;
+        return 2;
     }
-    sum /= 10;
-    printf("%.10f秒\n", sum);
+    printUriageList(l0);
+    printf("-----\n");
+    (*l1).next = l0;
+    (*l1).uriage = &u1;
+    printUriageList(l1);
+    printf("-----\n");
+    (*l2).next = l1;
+    (*l2).uriage = &u2;
+    printUriageList(l2);
+    printf("-----\n");
+    (*l3).next = l2;
+    (*l3).uriage = &u3;
+    printUriageList(l3);
+    printf("-----\n");
+    free(l3);
+    free(l2);
+    free(l1);
+    free(l0);
     return 0;
 }
 
@@ -105,15 +94,15 @@ void printUriageList(URIAGELIST *l)
     char *name;
     int syoukei;
     double zeisyoukei;
-    while (l->next != NULL)
+    while ((*l).next != NULL)
     {
         //lのURIAGE型のメンバーuriageのポインタである*uriageにアロー演算子でアクセスする。
         //*uriageのメンバであるcodeにアクセス
-        sotozei = shohin[l->uriage->code].sotozei;
-        tanka = shohin[l->uriage->code].tanka;
+        sotozei = shohin[(*(*l).uriage).code].sotozei;
+        tanka = shohin[(*(*l).uriage).code].tanka;
         //*uriageのメンバであるnumにアロー演算子でアクセス
-        num = l->uriage->num;
-        name = shohin[l->uriage->code].name;
+        num = (*(*l).uriage).num;
+        name = shohin[(*(*l).uriage).code].name;
         syoukei = num * tanka;
         zeisyoukei = num * tanka * ZEI;
         //最後のノードかそれ以外かの判断
@@ -130,7 +119,7 @@ void printUriageList(URIAGELIST *l)
             }
         }
         //次にprintする対象である構造体をl->nextを使って参照して代入
-        l = l->next;
+        l = (*l).next;
     }
 }
 
@@ -142,8 +131,8 @@ URIAGELIST *newlist(void)
     //mallocでのメモリ取得の成否判断
     if (l != NULL)
     {
-        l->next = NULL;
-        l->uriage = '\0';
+        (*l).next = NULL;
+        (*l).uriage = '\0';
     }
     //明示的return NULLを示す
     else

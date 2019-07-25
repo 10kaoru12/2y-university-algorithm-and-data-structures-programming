@@ -32,31 +32,21 @@ SHOHIN shohin[] = {{"Apple", 150}, {"Orange", 100}, {"Banana", 200}, {"Book1", 5
 
 int main(void)
 {
-    clock_t start, end;
-    double sum=0;
-    int i;
-    for(i=0;i<10;i++){
-        start=clock();
-        URIAGE u1 = {1, 2};
-        URIAGE u2 = {2, 3};
-        URIAGE u3 = {3, 4};
-        URIAGELIST l0 = {NULL};
-        URIAGELIST l1 = {&l0, &u1};
-        URIAGELIST l2 = {&l1, &u2};
-        URIAGELIST l3 = {&l2, &u3};
-        printf("-----\n");
-        printUriageList(&l0);
-        printf("-----\n");
-        printUriageList(&l1);
-        printf("-----\n");
-        printUriageList(&l2);
-        printf("-----\n");
-        printUriageList(&l3);
-        end=clock();
-        sum+=(double)(end-start)/CLOCKS_PER_SEC;
-    }
-    sum/=10;
-    printf("%.10f秒\n",sum);
+    URIAGE u1 = {1, 2};
+    URIAGE u2 = {2, 3};
+    URIAGE u3 = {3, 4};
+    URIAGELIST l0 = {NULL};
+    URIAGELIST l1 = {&l0, &u1};
+    URIAGELIST l2 = {&l1, &u2};
+    URIAGELIST l3 = {&l2, &u3};
+    printf("-----\n");
+    printUriageList(&l0);
+    printf("-----\n");
+    printUriageList(&l1);
+    printf("-----\n");
+    printUriageList(&l2);
+    printf("-----\n");
+    printUriageList(&l3);
     return 0;
 }
 
@@ -68,15 +58,15 @@ void printUriageList(URIAGELIST *l)
     char *name;
     int syoukei;
     double zeisyoukei;
-    while (l->next != NULL)
+    while ((*l).next != NULL)
     {
         //lのURIAGE型のメンバーuriageのポインタである*uriageにアロー演算子でアクセスする。
         //*uriageのメンバであるcodeにアクセス
-        sotozei = shohin[l->uriage->code].sotozei;
-        tanka = shohin[l->uriage->code].tanka;
+        sotozei = shohin[(*(*l).uriage).code].sotozei;
+        tanka = shohin[(*(*l).uriage).code].tanka;
         //*uriageのメンバであるnumにアロー演算子でアクセス
-        num = l->uriage->num;
-        name = shohin[l->uriage->code].name;
+        num = (*(*l).uriage).num;
+        name = shohin[(*(*l).uriage).code].name;
         syoukei = num * tanka;
         zeisyoukei = num * tanka * ZEI;
         //最後のノードかそれ以外かの判断
@@ -93,6 +83,6 @@ void printUriageList(URIAGELIST *l)
             }
         }
         //次にprintする対象である構造体をl->nextを使って参照して代入
-        l = l->next;
+        l = (*l).next;
     }
 }

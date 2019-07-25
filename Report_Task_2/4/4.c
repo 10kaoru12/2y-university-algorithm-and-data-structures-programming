@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 #define ZEI 1.08
 
@@ -31,31 +32,42 @@ SHOHIN shohin[] = {{"Apple", 150}, {"Orange", 100}, {"Banana", 200}, {"Book1", 5
 
 int main(void)
 {
-    URIAGE u1 = {1, 2};
-    URIAGE u2 = {2, 3};
-    URIAGE u3 = {3, 4};
-    URIAGE *u[] = {&u1, &u2, &u3, NULL};
-    URIAGE **p;
-    URIAGELIST *l;
-    URIAGELIST *m;
-    if ((l = newlist()) == NULL)
+    clock_t start, end;
+    double sum = 0;
+    int i;
+    for (i = 0; i < 10; i++)
     {
-        fprintf(stderr, "領域を確保できませんでした");
-        return 2;
-    }
-    for (p = u; *p != NULL; p++)
-    {
-        if ((m = add(l, *p)) == NULL)
+        start = clock();
+        URIAGE u1 = {1, 2};
+        URIAGE u2 = {2, 3};
+        URIAGE u3 = {3, 4};
+        URIAGE *u[] = {&u1, &u2, &u3, NULL};
+        URIAGE **p;
+        URIAGELIST *l;
+        URIAGELIST *m;
+        if ((l = newlist()) == NULL)
         {
             fprintf(stderr, "領域を確保できませんでした");
-            freeUriageList(l, 0);
             return 2;
         }
-        printf("追加%s\n", m->uriage == *p ? "OK" : "NG");
-        printUriageList(l);
-        printf("-----\n");
+        for (p = u; *p != NULL; p++)
+        {
+            if ((m = add(l, *p)) == NULL)
+            {
+                fprintf(stderr, "領域を確保できませんでした");
+                freeUriageList(l, 0);
+                return 2;
+            }
+            printf("追加%s\n", m->uriage == *p ? "OK" : "NG");
+            printUriageList(l);
+            printf("-----\n");
+        }
+        freeUriageList(l, 0);
+        end = clock();
+        sum += (double)(end - start) / CLOCKS_PER_SEC;
     }
-    freeUriageList(l, 0);
+    sum /= 10;
+    printf("%.10f?\n", sum);
     return 0;
 }
 
@@ -78,7 +90,7 @@ void printUriageList(URIAGELIST *l)
         name = shohin[l->uriage->code].name;
         syoukei = num * tanka;
         zeisyoukei = num * tanka * ZEI;
-        //最後のノードかそれ以外かの判断
+        //最後のノードかそれ以外かの判断
         if (l != NULL)
         {
             //sotozeiがtrueかflaseかで外税か内税かを判別

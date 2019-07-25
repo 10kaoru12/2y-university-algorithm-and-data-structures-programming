@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <time.h>
 
 typedef struct BINARYTREE
 {
@@ -16,6 +17,8 @@ void printNode(binaryTree *now);
 
 int main(void)
 {
+    time_t start, end;
+    start = clock();
     int i;
     int array[] = {1, 1, 3, 5, 6, 4, 7, 5, 4, 3, 7, 9, 5, 4, 2, 6};
     size_t sizeInt = sizeof(int);
@@ -26,6 +29,9 @@ int main(void)
         addNode(&root, array[i]);
     }
     printNode(root);
+    end = clock();
+    printf("%.10f秒\n", (double)(end - start) / CLOCKS_PER_SEC);
+    return 0;
 }
 
 int compare(const void *a, const void *b)
@@ -77,7 +83,6 @@ void printNode(binaryTree *now)
 {
     if (now == NULL)
         return;
-
     printNode(now->left);
     printf("%d\n", now->value);
     printNode(now->right);
